@@ -2,13 +2,14 @@
 #
 # statsfunctions.py
 #
-# need to use > python 3.5.3 (to use pandas)
-#   assuming use of python3.8 in Ubuntu 20.04
+# need to use > python 3.5.3 (to use pandas),
+# some dependencies required,
+# assuming use of python3.8 in Ubuntu 20.04:
 #   sudo apt install python3-pip
 #   sudo apt install python3-numpy python3-pandas python3-matplotlib python3-scipy
 #   python3 -m pip install --upgrade bootstrapped
 #
-# Useful stats functions
+# "Useful stats functions"
 #
 
 import numpy as np

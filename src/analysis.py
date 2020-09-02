@@ -8,7 +8,7 @@
 #   sudo apt install python3-numpy python3-pandas python3-matplotlib python3-scipy
 #   python3 -m pip install --upgrade bootstrapped
 #
-# analysis of log files from story construction study, 2019
+# "analysis of log files from story construction study, 2019"
 #
 # run using (where data.dat is a log file):
 #   python3 analysis.py data.dat
