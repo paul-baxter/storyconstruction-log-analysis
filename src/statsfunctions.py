@@ -21,6 +21,18 @@ import bootstrapped.bootstrap as bs
 import bootstrapped.stats_functions as bs_stats
 import bootstrapped.compare_functions as bs_compare
 
+np.set_printoptions(formatter={'float': "{0:0.3f}"})
+
+def meanFromList (in_data):
+    arr = np.array(in_data)
+    mean = np.mean(arr)
+    return np.around(mean,decimals=3)
+
+def stdevFromList (in_data):
+    arr = np.array(in_data)
+    stdev = np.std(arr, ddof=1)
+    return np.around(stdev,decimals=3)
+
 def summary (in_data):
     mn = np.mean(in_data)
     print('\tMean:\t', mn[0])
