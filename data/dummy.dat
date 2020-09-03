@@ -13,7 +13,7 @@ time,stamp,type,message
 2019-08-22 03:22:44,1566483764,page,2
 2019-08-22 03:22:57,1566483777,tts,something else?
 2019-08-22 03:23:02,1566483782,tts,That is great!
-2019-08-22 03:23:07,1566483787,tts,Lets’ name this story, what should we call it?
+2019-08-22 03:23:07,1566483787,tts,Let's name this story, what should we call it?
 2019-08-22 03:23:41,1566483821,tts,thank you, it was very nice meeting you!
 2019-08-22 03:23:45,1566483825,tts,Okay, that is the end of the story! Thank you for your help!
 2019-08-22 03:23:50,1566483830,event,end of interaction
