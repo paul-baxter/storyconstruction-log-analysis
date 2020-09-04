@@ -46,6 +46,7 @@ print("\t Participant ID: ", ID)
 
 # the actual data starts at 'row' 3 until the end
 for line in data[3:]:
+    if (len(line) < 3): continue
     if (line[2]=="page"):
         #new page has come up
         pageCount += 1
