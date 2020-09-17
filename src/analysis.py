@@ -44,18 +44,24 @@ ttsStrings = ""
 ID = str(data[0][0])
 print("\t Participant ID: ", ID)
 
+# flag in case of tts occuring before in a page
+prePageFlag = True
+
 # the actual data starts at 'row' 3 until the end
 for line in data[3:]:
     if (len(line) < 3): continue
     if (line[2]=="page"):
         #new page has come up
         pageCount += 1
+        prePageFlag = False
         #print("New page detected")
         startTime = int(line[1])
         ttsCount = 0
     elif (line[2]=="tts"):
         #
         #print("TTS event detected")
+        if (prePageFlag):
+            continue
         ttsCount += 1
         ttsPageTime.append(int(line[1]) - startTime)
     elif (line[2]=="event"):
@@ -82,10 +88,12 @@ for line in data[3:]:
 
 #process tts times list to turn into intervals rather than from start...
 ttsIntervals = []
+t = 0
 for pT in ttsPageTimes:
     page = pT
     times = []
     for index, t in enumerate(page):
+        print(index, t)
         if (index == 0): t = t
         else: t = t - page[index-1]
         times.append(t)
@@ -94,7 +102,10 @@ for pT in ttsPageTimes:
 #construct result string and append to results file
 resultLine = ID + "," + str(interactionDuration) + "," + str(pageCount) + ","
 
+print(ttsIntervals)
+
 for i in range(pageCount):
+    print(sf.stdevFromList(ttsIntervals[i]))
     resultLine = resultLine + str(pageTimes[i]) + "," + str(ttsCounts[i]) + "," + str(sf.meanFromList(ttsIntervals[i])) + "," + str(sf.stdevFromList(ttsIntervals[i])) + ","
 resultLine = resultLine + "\n"
 
