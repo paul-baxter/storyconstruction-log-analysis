@@ -64,6 +64,8 @@ for line in data[3:]:
             continue
         ttsCount += 1
         ttsPageTime.append(int(line[1]) - startTime)
+        ttsStrings += " "
+        ttsStrings += line[3]
     elif (line[2]=="event"):
         #page
         if (firstEvent):
@@ -109,3 +111,10 @@ print ("\t", str(interactionDuration), str(pageCount))
 
 with open("processedData.dat", 'a') as outFile:
     outFile.write(resultLine)
+
+ttsFileName = "tts/" + ID + ".dat"
+ttsStrings = ttsStrings + "\n"
+with open('allTTS.dat', 'a') as allTTSOutFile:
+    allTTSOutFile.write(ttsStrings)
+with open(ttsFileName, 'a') as ttsOutFile:
+    ttsOutFile.write(ttsStrings)
