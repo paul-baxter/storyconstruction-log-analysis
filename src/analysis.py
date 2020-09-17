@@ -93,7 +93,6 @@ for pT in ttsPageTimes:
     page = pT
     times = []
     for index, t in enumerate(page):
-        print(index, t)
         if (index == 0): t = t
         else: t = t - page[index-1]
         times.append(t)
@@ -102,10 +101,7 @@ for pT in ttsPageTimes:
 #construct result string and append to results file
 resultLine = ID + "," + str(interactionDuration) + "," + str(pageCount) + ","
 
-print(ttsIntervals)
-
 for i in range(pageCount):
-    print(sf.stdevFromList(ttsIntervals[i]))
     resultLine = resultLine + str(pageTimes[i]) + "," + str(ttsCounts[i]) + "," + str(sf.meanFromList(ttsIntervals[i])) + "," + str(sf.stdevFromList(ttsIntervals[i])) + ","
 resultLine = resultLine + "\n"
 
