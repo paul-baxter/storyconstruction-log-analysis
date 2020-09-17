@@ -16,5 +16,13 @@ done
 rm analysis.py
 rm statsfunctions.py
 
+echo ""
+echo "Robot TTS Word Frequency Analysis"
+echo ""
+
+cp src/text-analysis.py text-analysis.py
+python2 text-analysis.py -i allTTS.dat -n 100
+rm text-analysis.py
+
 echo "All Done"
 echo ""
