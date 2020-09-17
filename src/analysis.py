@@ -23,7 +23,7 @@ import sys
 import csv
 
 fileInName = str(sys.argv[1])
-print("    File to process: ", fileInName)
+#print("    File to process: ", fileInName)
 
 with open(fileInName, newline='') as file:
     read = csv.reader(file)
@@ -107,7 +107,7 @@ for i in range(pageCount):
     resultLine = resultLine + str(pageTimes[i]) + "," + str(ttsCounts[i]) + "," + str(sf.meanFromList(ttsIntervals[i])) + "," + str(sf.stdevFromList(ttsIntervals[i])) + ","
 resultLine = resultLine + "\n"
 
-print ("\t", str(interactionDuration), str(pageCount))
+#print ("\t", str(interactionDuration), str(pageCount))
 
 with open("processedData.dat", 'a') as outFile:
     outFile.write(resultLine)
