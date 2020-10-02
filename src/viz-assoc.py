@@ -21,10 +21,40 @@ import scipy.stats as stats
 import matplotlib.pyplot as plt
 import pandas.plotting as pandplot
 import statsfunctions as sf
-
-print()
+from dython.nominal import associations
 
 data = pd.read_csv('data/raw-data-complete.csv')
+
+font = {'family' : 'sans-serif',
+        'weight' : 'normal',
+        'size'   : 16}
+plt.rc('font', **font)
+
+lines = {'linewidth' : '2',
+         'color'     : 'black',
+         'linestyle' : '-'}
+plt.rc('lines', **lines)
+
+box = {'boxprops.color'         : 'black',
+       'boxprops.linewidth'     : '2',
+       'boxprops.linestyle'     : '-',
+       'whiskerprops.color'     : 'black',
+       'whiskerprops.linewidth' : '2',
+       'whiskerprops.linestyle' : '-',
+       'capprops.color'         : 'black',
+       'capprops.linewidth'     : '2',
+       'capprops.linestyle'     : '-',
+       'medianprops.color'      : 'C1',
+       'medianprops.linewidth'  : '3',
+       'medianprops.linestyle'  : '-',
+       'meanprops.color'        : 'C2',
+       'meanprops.marker'       : 'X',
+       'meanprops.markerfacecolor' : 'C2',
+       'meanprops.markeredgecolor' : 'C2',
+       'meanprops.markersize'   : '14',
+       'meanprops.linestyle'    : '--',
+       'meanprops.linewidth'    : '2'}
+plt.rc('boxplot', **box)
 
 #prepare groups by age
 groupby_agegroup1 = data[(data.age == 3)]
@@ -59,6 +89,10 @@ data.boxplot(column=['IntLength'], showmeans=True, ax=axes[0])
 data.boxplot(column=['PtimeMean'], showmeans=True, ax=axes[1])
 data.boxplot(column=['PttsNmean'], showmeans=True, ax=axes[2])
 data.boxplot(column=['PttsTimeMeanPooled'], showmeans=True, ax=axes[3])
+axes[0].set_ylabel("Interaction length (s)")
+axes[1].set_ylabel("Mean time per page (s)")
+axes[2].set_ylabel("Mean number of robot TTS utterances per page")
+axes[3].set_ylabel("Mean time between TTS utterances (s)")
 plots, axes = plt.subplots(1,6,sharey=True)
 data.boxplot(column=['SP'], showmeans=True, ax=axes[0])
 data.boxplot(column=['SS'], showmeans=True, ax=axes[1])
@@ -66,6 +100,8 @@ data.boxplot(column=['IE'], showmeans=True, ax=axes[2])
 data.boxplot(column=['B'], showmeans=True, ax=axes[3])
 data.boxplot(column=['D'], showmeans=True, ax=axes[4])
 data.boxplot(column=['F'], showmeans=True, ax=axes[5])
+axes[0].set_ylabel("Response (in range [1,5])")
+#data.boxplot(column=['SP','SS','IE','B','D','F'], showmeans=True, ax=None)
 
 #data visualisations: by age
 ageplots, axes = plt.subplots(1,4)
@@ -73,6 +109,10 @@ group_labeled_data_age.boxplot(column=['IntLength'], by='AgeGroup', showmeans=Tr
 group_labeled_data_age.boxplot(column=['PtimeMean'], by='AgeGroup', showmeans=True, ax=axes[1])
 group_labeled_data_age.boxplot(column=['PttsNmean'], by='AgeGroup', showmeans=True, ax=axes[2])
 group_labeled_data_age.boxplot(column=['PttsTimeMeanPooled'], by='AgeGroup', showmeans=True, ax=axes[3])
+axes[0].set_ylabel("Interaction length (s)")
+axes[1].set_ylabel("Mean time per page (s)")
+axes[2].set_ylabel("Mean number of robot TTS utterances per page")
+axes[3].set_ylabel("Mean time between TTS utterances (s)")
 ageplots, axes = plt.subplots(1,6,sharey=True)
 group_labeled_data_age.boxplot(column=['SP'], by='AgeGroup', showmeans=True, ax=axes[0])
 group_labeled_data_age.boxplot(column=['SS'], by='AgeGroup', showmeans=True, ax=axes[1])
@@ -80,6 +120,7 @@ group_labeled_data_age.boxplot(column=['IE'], by='AgeGroup', showmeans=True, ax=
 group_labeled_data_age.boxplot(column=['B'], by='AgeGroup', showmeans=True, ax=axes[3])
 group_labeled_data_age.boxplot(column=['D'], by='AgeGroup', showmeans=True, ax=axes[4])
 group_labeled_data_age.boxplot(column=['F'], by='AgeGroup', showmeans=True, ax=axes[5])
+axes[0].set_ylabel("Response (in range [1,5])")
 
 #data visualisations: by gender
 genderplots, axes = plt.subplots(1,4)
@@ -87,6 +128,10 @@ group_labeled_data_gender.boxplot(column=['IntLength'], by='GenderGroup', showme
 group_labeled_data_gender.boxplot(column=['PtimeMean'], by='GenderGroup', showmeans=True, ax=axes[1])
 group_labeled_data_gender.boxplot(column=['PttsNmean'], by='GenderGroup', showmeans=True, ax=axes[2])
 group_labeled_data_gender.boxplot(column=['PttsTimeMeanPooled'], by='GenderGroup', showmeans=True, ax=axes[3])
+axes[0].set_ylabel("Interaction length (s)")
+axes[1].set_ylabel("Mean time per page (s)")
+axes[2].set_ylabel("Mean number of robot TTS utterances per page")
+axes[3].set_ylabel("Mean time between TTS utterances (s)")
 genderplots, axes = plt.subplots(1,6,sharey=True)
 group_labeled_data_gender.boxplot(column=['SP'], by='GenderGroup', showmeans=True, ax=axes[0])
 group_labeled_data_gender.boxplot(column=['SS'], by='GenderGroup', showmeans=True, ax=axes[1])
@@ -94,20 +139,11 @@ group_labeled_data_gender.boxplot(column=['IE'], by='GenderGroup', showmeans=Tru
 group_labeled_data_gender.boxplot(column=['B'], by='GenderGroup', showmeans=True, ax=axes[3])
 group_labeled_data_gender.boxplot(column=['D'], by='GenderGroup', showmeans=True, ax=axes[4])
 group_labeled_data_gender.boxplot(column=['F'], by='GenderGroup', showmeans=True, ax=axes[5])
+axes[0].set_ylabel("Response (in range [1,5])")
 
-#calculate means and 95% CIs for all relevant variables
-# - study 1: section 4.3, performance
-#sf.ci_bootstrap("3-4 TestCorrect", groupby_agegroup1['TestCorrect'])
-#sf.ci_bootstrap("5-6 TestCorrect", groupby_agegroup2['TestCorrect'])
-#sf.ci_bootstrap("7-8 TestCorrect", groupby_agegroup3['TestCorrect'])
-#sf.ci_bootstrap("9-10 TestCorrect", groupby_agegroup4['TestCorrect'])
-#print()
-# - study 1: section 4.3, response time
-#sf.ci_bootstrap("3-4 TimeMeanTest", groupby_agegroup1['TimeMeanTest'])
-#sf.ci_bootstrap("5-6 TimeMeanTest", groupby_agegroup2['TimeMeanTest'])
-#sf.ci_bootstrap("7-8 TimeMeanTest", groupby_agegroup3['TimeMeanTest'])
-#sf.ci_bootstrap("9-10 TimeMeanTest", groupby_agegroup4['TimeMeanTest'])
-#print()
+#association analysis
+subset_data = data[["age","IntLength","gender","PtimeMean","PttsNmean","PttsTimeMeanPooled","SP","SS","IE","robotIs","robotLike","B","D","F"]]
+associations(subset_data, theil_u=True, nominal_columns=['age','gender','robotIs','robotLike','B','D','F'], mark_columns=True, cmap='vlag', fmt='.3f')
 
 #display the plots
 plt.show()

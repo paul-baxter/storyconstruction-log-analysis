@@ -22,14 +22,6 @@ echo ""
 cp src/text-analysis.py text-analysis.py
 python2 text-analysis.py -i allTTS.dat -n 100
 rm text-analysis.py
-
-echo ""
-echo "Robot TTS Word Frequency Analysis"
-echo ""
-
-cp src/viz-assoc.py viz-assoc.py
-python3 viz-assoc.py data/raw-data-complete.csv
-rm viz-assoc.py
 rm statsfunctions.py
 
 echo ""
