@@ -35,7 +35,7 @@ def main(argv):
     lineWordCount = 0
     lineNumbers = numpy.array([])
     words = {}
-    delims = " ", ", ", "-", "\n", ".", "?"             #delimiters
+    delims = " ", ", ", "-", "\n", ".", "?", "!"            #delimiters
     regexPattern = '|'.join(map(re.escape, delims))     #regular expression
     if os.path.exists(inputfile):
         try:
