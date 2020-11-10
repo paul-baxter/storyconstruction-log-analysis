@@ -22,6 +22,7 @@ import matplotlib.pyplot as plt
 import pandas.plotting as pandplot
 import statsfunctions as sf
 from dython.nominal import associations
+from pandas.plotting import scatter_matrix
 
 data = pd.read_csv('data/raw-data-complete.csv')
 
@@ -114,13 +115,15 @@ axes[0].set_ylabel("Interaction length (s)")
 axes[1].set_ylabel("Mean time per page (s)")
 axes[2].set_ylabel("Mean number of robot TTS utterances per page")
 axes[3].set_ylabel("Mean time between TTS utterances (s)")
-plots, axes = plt.subplots(1,6,sharey=True)
+plots, axes = plt.subplots(1,8,sharey=True)
 data.boxplot(column=['SP'], showmeans=True, ax=axes[0], widths=w)
 data.boxplot(column=['SS'], showmeans=True, ax=axes[1], widths=w)
 data.boxplot(column=['IE'], showmeans=True, ax=axes[2], widths=w)
 data.boxplot(column=['B'], showmeans=True, ax=axes[3], widths=w)
 data.boxplot(column=['D'], showmeans=True, ax=axes[4], widths=w)
 data.boxplot(column=['F'], showmeans=True, ax=axes[5], widths=w)
+data.boxplot(column=['M'], showmeans=True, ax=axes[6], widths=w)
+data.boxplot(column=['N'], showmeans=True, ax=axes[7], widths=w)
 plots.suptitle("")
 axes[0].set_ylabel("Response (in range [1,5])")
 
@@ -135,13 +138,15 @@ axes[0].set_ylabel("Interaction length (s)")
 axes[1].set_ylabel("Mean time per page (s)")
 axes[2].set_ylabel("Mean number of robot TTS utterances per page")
 axes[3].set_ylabel("Mean time between TTS utterances (s)")
-ageplots, axes = plt.subplots(1,6,sharey=True)
+ageplots, axes = plt.subplots(1,8,sharey=True)
 group_labeled_data_age.boxplot(column=['SP'], by='AgeGroup', showmeans=True, ax=axes[0], widths=w_age)
 group_labeled_data_age.boxplot(column=['SS'], by='AgeGroup', showmeans=True, ax=axes[1], widths=w_age)
 group_labeled_data_age.boxplot(column=['IE'], by='AgeGroup', showmeans=True, ax=axes[2], widths=w_age)
 group_labeled_data_age.boxplot(column=['B'], by='AgeGroup', showmeans=True, ax=axes[3], widths=w_age)
 group_labeled_data_age.boxplot(column=['D'], by='AgeGroup', showmeans=True, ax=axes[4], widths=w_age)
 group_labeled_data_age.boxplot(column=['F'], by='AgeGroup', showmeans=True, ax=axes[5], widths=w_age)
+group_labeled_data_age.boxplot(column=['M'], by='AgeGroup', showmeans=True, ax=axes[6], widths=w_age)
+group_labeled_data_age.boxplot(column=['N'], by='AgeGroup', showmeans=True, ax=axes[7], widths=w_age)
 ageplots.suptitle("")
 axes[0].set_ylabel("Response (in range [1,5])")
 
@@ -156,15 +161,21 @@ axes[0].set_ylabel("Interaction length (s)")
 axes[1].set_ylabel("Mean time per page (s)")
 axes[2].set_ylabel("Mean number of robot TTS utterances per page")
 axes[3].set_ylabel("Mean time between TTS utterances (s)")
-genderplots, axes = plt.subplots(1,6,sharey=True)
+genderplots, axes = plt.subplots(1,8,sharey=True)
 group_labeled_data_gender.boxplot(column=['SP'], by='GenderGroup', showmeans=True, ax=axes[0], widths=w)
 group_labeled_data_gender.boxplot(column=['SS'], by='GenderGroup', showmeans=True, ax=axes[1], widths=w)
 group_labeled_data_gender.boxplot(column=['IE'], by='GenderGroup', showmeans=True, ax=axes[2], widths=w)
 group_labeled_data_gender.boxplot(column=['B'], by='GenderGroup', showmeans=True, ax=axes[3], widths=w)
 group_labeled_data_gender.boxplot(column=['D'], by='GenderGroup', showmeans=True, ax=axes[4], widths=w)
 group_labeled_data_gender.boxplot(column=['F'], by='GenderGroup', showmeans=True, ax=axes[5], widths=w)
+group_labeled_data_gender.boxplot(column=['M'], by='GenderGroup', showmeans=True, ax=axes[6], widths=w)
+group_labeled_data_gender.boxplot(column=['N'], by='GenderGroup', showmeans=True, ax=axes[7], widths=w)
 genderplots.suptitle("")
 axes[0].set_ylabel("Response (in range [1,5])")
+
+#matrix scatter plot
+subset_data_s =data[["age","IntLength","PtimeMean","PttsNmean","PttsTimeMeanPooled","SP","SS","IE"]]
+scatter_matrix(subset_data_s, alpha=0.7, grid=True, marker='o', figsize=(20, 20), diagonal='hist', cmap='vlag')
 
 #formatting change for the association plot
 figure = {
@@ -177,8 +188,8 @@ figure = {
 plt.rc('figure', **figure)
 
 #association analysis
-subset_data = data[["age","IntLength","gender","PtimeMean","PttsNmean","PttsTimeMeanPooled","SP","SS","IE","robotIs","robotLike","B","D","F"]]
-associations(subset_data, theil_u=True, nominal_columns=['age','gender','robotIs','robotLike','B','D','F'], mark_columns=True, cmap='vlag', fmt='.3f')
+subset_data = data[["age","IntLength","gender","PtimeMean","PttsNmean","PttsTimeMeanPooled","SP","SS","IE","robotIs","robotLike","B","D","F","M","N"]]
+associations(subset_data, theil_u=True, nominal_columns=['age','gender','robotIs','robotLike','B','D','F','M','N'], mark_columns=False, cmap='vlag', fmt='.3f')
 
 #display the plots
 plt.show()
